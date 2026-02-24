@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: 'postgres:16'
+    restart: always
+    environment:
+      POSTGRES_DB: dobook_db
+      POSTGRES_PASSWORD: vlad
+      POSTGRES_USER: vlad
+    ports:
+      - '5434:5432'
+    networks:
+      - dobook_net
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+networks:
+  dobook_net:
+
+volumes:
+  postgres_data:
