@@ -38,18 +38,18 @@ public class UserEntity {
 
     @Column(name = "username")
     @NotBlank(message = "Username cannot be empty")
-    @Size(min = 3, max = 255)
+    @Size(min = 3, max = 50)
     private String username;
 
     @Column(name = "email", nullable = false, unique = true)
     @NotBlank(message = "Email cannot be empty")
     @Email(message = "Incorrect email format")
-    @Size(min = 5, max = 255)
+    @Size(min = 5, max = 100)
     private String email;
 
     @Column(name = "password", nullable = false)
     @NotBlank(message = "Password cannot be empty")
-    @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
+    @Size(min = 8, max = 255, message = "Password must be between 8 and 100 characters")
     private String password;
 
     @Column(name = "role", nullable = false)
