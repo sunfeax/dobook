@@ -3,8 +3,8 @@ package com.sunfeax.dobook.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.sunfeax.dobook.entity.UserEntity;
+import com.sunfeax.dobook.entity.BookingEntity;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface BookingRepository extends JpaRepository<BookingEntity, Long> {
 }

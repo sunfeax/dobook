@@ -1,12 +1,18 @@
 package com.sunfeax.dobook.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.sunfeax.dobook.enums.UserRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -41,12 +47,19 @@ public class UserEntity {
     @Size(min = 5, max = 255)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     @NotBlank(message = "Password cannot be empty")
     @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
     private String password;
 
-    @Column(name = "created_at", nullable = false, updatable = true)
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRole role = UserRole.USER; // default status
+
+    @OneToMany(mappedBy = "user")
+    private List<BookingEntity> bookings;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
     @NotNull
     private LocalDateTime createdAt;
 }
