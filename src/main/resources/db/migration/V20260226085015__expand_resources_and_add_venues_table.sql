@@ -1,0 +1,22 @@
+CREATE TABLE venues (
+  id BIGSERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  address VARCHAR(255),
+  description TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE resources ADD COLUMN type VARCHAR(50) NOT NULL DEFAULT 'TABLE';
+ALTER TABLE resources ADD COLUMN capacity INTEGER DEFAULT 1;
+ALTER TABLE resources ADD COLUMN description TEXT;
+ALTER TABLE resources ADD COLUMN is_active BOOLEAN DEFAULT TRUE;
+ALTER TABLE resources ADD COLUMN venue_id BIGINT;
+
+ALTER TABLE resources
+ADD CONSTRAINT fk_resource_venue
+FOREIGN KEY (venue_id) REFERENCES venues(id);
+
+INSERT INTO venues (name, address) VALUES ('Legend Selection', 'Calle Tabacalerta, 10, Valencia, Spain, 41');
+
+UPDATE resources SET venue_id = 1;
+ALTER TABLE resources ALTER COLUMN venue_id SET NOT NULL;

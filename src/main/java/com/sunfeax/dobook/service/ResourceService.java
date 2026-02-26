@@ -18,4 +18,8 @@ public class ResourceService {
     public List<ResourceEntity> getAll() {
         return resourceRepository.findAll();
     }
+
+    public List<ResourceEntity> getAllByVenueId(Long venueId) {
+        return resourceRepository.findByVenueId(venueId);
+    }
 }

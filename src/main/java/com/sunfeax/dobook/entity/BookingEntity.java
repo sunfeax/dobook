@@ -32,7 +32,7 @@ public class BookingEntity {
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -41,7 +41,7 @@ public class BookingEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resource_id", nullable = false)
     private ResourceEntity resource;
-    
+
     @Column(name = "start_date", nullable = false)
     @NotNull
     private LocalDateTime startTime;

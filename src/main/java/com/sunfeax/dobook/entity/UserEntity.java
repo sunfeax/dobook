@@ -34,7 +34,7 @@ public class UserEntity {
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "username")
     @NotBlank(message = "Username cannot be empty")
@@ -56,10 +56,11 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.USER; // default status
 
-    @OneToMany(mappedBy = "user")
-    private List<BookingEntity> bookings;
-
     @Column(name = "created_at", nullable = false, updatable = false)
     @NotNull
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "user")
+    private List<BookingEntity> bookings;
+
 }
