@@ -15,8 +15,3 @@ ALTER TABLE resources ADD COLUMN venue_id BIGINT;
 ALTER TABLE resources
 ADD CONSTRAINT fk_resource_venue
 FOREIGN KEY (venue_id) REFERENCES venues(id);
-
-INSERT INTO venues (name, address) VALUES ('Legend Selection', 'Calle Tabacalerta, 10, Valencia, Spain, 41');
-
-UPDATE resources SET venue_id = 1;
-ALTER TABLE resources ALTER COLUMN venue_id SET NOT NULL;
