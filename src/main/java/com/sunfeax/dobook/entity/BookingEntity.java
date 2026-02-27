@@ -37,7 +37,7 @@ public class BookingEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnoreProperties({ "bookings", "password", "hibernateLazyInitializer" })
+    @JsonIgnoreProperties({ "bookings", "password", "role", "hibernateLazyInitializer" })
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -55,5 +55,5 @@ public class BookingEntity {
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private BookingStatus status = BookingStatus.PENDING; // default status
+    private BookingStatus status = BookingStatus.PENDING;
 }

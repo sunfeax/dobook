@@ -3,7 +3,6 @@ package com.sunfeax.dobook.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sunfeax.dobook.enums.UserRole;
 
 import jakarta.persistence.Column;
@@ -30,7 +29,6 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({ "password" })
 public class UserEntity {
 
     @Column(name = "id")
@@ -56,7 +54,7 @@ public class UserEntity {
 
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserRole role = UserRole.USER; // default status
+    private UserRole role = UserRole.USER;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @NotNull
@@ -64,5 +62,4 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user")
     private List<BookingEntity> bookings;
-
 }

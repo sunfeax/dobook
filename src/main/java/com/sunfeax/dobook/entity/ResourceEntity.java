@@ -2,7 +2,6 @@ package com.sunfeax.dobook.entity;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sunfeax.dobook.enums.ResourceType;
 
@@ -67,6 +66,6 @@ public class ResourceEntity {
     private VenueEntity venue;
 
     @OneToMany(mappedBy = "resource")
-    @JsonIgnore
+    @JsonIgnoreProperties({ "resource" })
     private List<BookingEntity> bookings;
 }
