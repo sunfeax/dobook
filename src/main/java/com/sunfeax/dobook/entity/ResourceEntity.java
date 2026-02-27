@@ -63,7 +63,7 @@ public class ResourceEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "venue_id", nullable = false)
-    @JsonIgnoreProperties({ "resources" })
+    @JsonIgnoreProperties({ "resources", "hibernateLazyInitializer" })
     private VenueEntity venue;
 
     @OneToMany(mappedBy = "resource")

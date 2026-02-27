@@ -3,6 +3,7 @@ package com.sunfeax.dobook.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sunfeax.dobook.enums.UserRole;
 
 import jakarta.persistence.Column;
@@ -29,6 +30,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({ "password" })
 public class UserEntity {
 
     @Column(name = "id")
