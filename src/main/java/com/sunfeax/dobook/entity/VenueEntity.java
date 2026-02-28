@@ -3,8 +3,6 @@ package com.sunfeax.dobook.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -53,6 +51,5 @@ public class VenueEntity {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({ "venue" })
     private List<ResourceEntity> resources;
 }

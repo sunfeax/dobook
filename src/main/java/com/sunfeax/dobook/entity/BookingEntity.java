@@ -2,7 +2,6 @@ package com.sunfeax.dobook.entity;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sunfeax.dobook.enums.BookingStatus;
 
 import jakarta.persistence.Column;
@@ -37,12 +36,14 @@ public class BookingEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnoreProperties({ "bookings", "password", "role", "hibernateLazyInitializer" })
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "venue_id", nullable = false)
+    private VenueEntity venue;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resource_id", nullable = false)
-    @JsonIgnoreProperties({ "bookings", "hibernateLazyInitializer" })
     private ResourceEntity resource;
 
     @Column(name = "start_date", nullable = false)
