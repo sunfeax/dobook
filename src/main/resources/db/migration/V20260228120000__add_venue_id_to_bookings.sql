@@ -12,5 +12,3 @@ ALTER TABLE bookings
 ALTER TABLE bookings
   ADD CONSTRAINT fk_booking_venue
     FOREIGN KEY (venue_id) REFERENCES venues(id);
-
-CREATE INDEX idx_bookings_venue_id ON bookings (venue_id);

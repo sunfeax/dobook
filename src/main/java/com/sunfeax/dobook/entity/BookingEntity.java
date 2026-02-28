@@ -1,5 +1,6 @@
 package com.sunfeax.dobook.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.sunfeax.dobook.enums.BookingStatus;
@@ -15,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -46,6 +48,11 @@ public class BookingEntity {
     @JoinColumn(name = "resource_id", nullable = false)
     private ResourceEntity resource;
 
+    @Column(name = "price_amount", nullable = false, precision = 12, scale = 2)
+    @NotNull
+    @DecimalMin("0.00")
+    private BigDecimal priceAmount = BigDecimal.ZERO;
+
     @Column(name = "start_date", nullable = false)
     @NotNull
     private LocalDateTime startTime;
@@ -57,4 +64,12 @@ public class BookingEntity {
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private BookingStatus status = BookingStatus.PENDING;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @NotNull
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    @NotNull
+    private LocalDateTime updatedAt;
 }
