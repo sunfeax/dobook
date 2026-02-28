@@ -2,7 +2,6 @@ package com.sunfeax.dobook.entity;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sunfeax.dobook.enums.ResourceType;
 
 import jakarta.persistence.Column;
@@ -48,24 +47,22 @@ public class ResourceEntity {
     @Enumerated(EnumType.STRING)
     private ResourceType type;
 
-    @Column(name = "capacity")
+    @Column(name = "description")
+    @Size(max = 255, message = "Description must be less than 255 characters")
+    private String description;
+
+    @Column(name = "capacity", nullable = false)
     @Min(1)
     @Max(1000)
     private Integer capacity;
-
-    @Column(name = "description", nullable = false)
-    @Size(max = 255, message = "Description must be less than 255 characters")
-    private String description;
 
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "venue_id", nullable = false)
-    @JsonIgnoreProperties({ "resources", "hibernateLazyInitializer" })
     private VenueEntity venue;
 
     @OneToMany(mappedBy = "resource")
-    @JsonIgnoreProperties({ "resource" })
     private List<BookingEntity> bookings;
 }

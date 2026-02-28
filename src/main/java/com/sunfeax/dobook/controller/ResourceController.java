@@ -2,15 +2,16 @@ package com.sunfeax.dobook.controller;
 
 import java.util.List;
 
-import lombok.RequiredArgsConstructor;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sunfeax.dobook.entity.ResourceEntity;
+import com.sunfeax.dobook.dto.resource.ResourceResponseDto;
 import com.sunfeax.dobook.service.ResourceService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/resources")
@@ -20,12 +21,12 @@ public class ResourceController {
     private final ResourceService resourceService;
 
     @GetMapping
-    public List<ResourceEntity> getResources() {
+    public List<ResourceResponseDto> getUsers() {
         return resourceService.getAll();
     }
 
-    @GetMapping("/venue/{venueId}")
-    public List<ResourceEntity> getResourcesByVenue(@PathVariable Long venueId) {
-        return resourceService.getAllByVenueId(venueId);
+    @GetMapping("/{id}")
+    public ResponseEntity<ResourceResponseDto> getResourceById(@PathVariable Long id) {
+        return ResponseEntity.of(resourceService.getById(id));
     }
 }
