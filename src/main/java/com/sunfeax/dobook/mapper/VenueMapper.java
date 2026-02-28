@@ -14,6 +14,8 @@ public class VenueMapper {
             venueEntity.getName(),
             venueEntity.getAddress(),
             venueEntity.getDescription(),
+            venueEntity.getAdminUser().getUsername(),
+            venueEntity.getAdminUser().getPhoneNumber(),
             venueEntity.getCreatedAt()
         );
     }

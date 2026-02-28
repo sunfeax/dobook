@@ -3,8 +3,7 @@ package com.sunfeax.dobook.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.sunfeax.dobook.enums.BookingStatus;
-import com.sunfeax.dobook.enums.PaymentMethod;
+import com.sunfeax.dobook.enums.PaymentStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,61 +14,47 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "bookings")
+@Table(name = "payments")
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookingEntity {
+public class PaymentEntity {
 
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "booking_id", nullable = false, unique = true)
+    private BookingEntity booking;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "venue_id", nullable = false)
-    private VenueEntity venue;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "resource_id", nullable = false)
-    private ResourceEntity resource;
-
-    @Column(name = "price_amount", nullable = false, precision = 12, scale = 2)
+    @Column(name = "amount", nullable = false, precision = 12, scale = 2)
     @NotNull
     @DecimalMin("0.00")
-    private BigDecimal priceAmount = BigDecimal.ZERO;
+    private BigDecimal amount;
 
-    @Column(name = "start_date", nullable = false)
+    @Column(name = "currency", nullable = false, length = 3)
     @NotNull
-    private LocalDateTime startTime;
-
-    @Column(name = "end_date", nullable = false)
-    @NotNull
-    private LocalDateTime endTime;
+    @Size(min = 3, max = 3)
+    private String currency;
 
     @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private BookingStatus status = BookingStatus.PENDING;
-
-    @Column(name = "payment_method", nullable = false)
     @NotNull
     @Enumerated(EnumType.STRING)
-    private PaymentMethod paymentMethod = PaymentMethod.ONLINE;
+    private PaymentStatus status = PaymentStatus.PENDING;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @NotNull

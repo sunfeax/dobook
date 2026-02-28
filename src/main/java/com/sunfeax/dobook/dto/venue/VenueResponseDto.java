@@ -7,5 +7,7 @@ public record VenueResponseDto(
     String name,
     String address,
     String description,
+    String adminName,
+    String adminPhone,
     LocalDateTime createdAt) {
 }

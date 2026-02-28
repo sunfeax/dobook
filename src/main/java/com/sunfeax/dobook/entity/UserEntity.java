@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.sunfeax.dobook.enums.UserRole;
+import com.sunfeax.dobook.enums.UserType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,6 +48,11 @@ public class UserEntity {
     @Size(min = 5, max = 100)
     private String email;
 
+    @Column(name = "phone_number", nullable = false, length = 20)
+    @NotBlank(message = "Phone number cannot be empty")
+    @Size(min = 7, max = 20)
+    private String phoneNumber;
+
     @Column(name = "password", nullable = false)
     @NotBlank(message = "Password cannot be empty")
     @Size(min = 8, max = 255, message = "Password must be between 8 and 100 characters")
@@ -55,6 +61,11 @@ public class UserEntity {
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.USER;
+
+    @Column(name = "user_type", nullable = false)
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private UserType userType = UserType.CLIENT;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @NotNull

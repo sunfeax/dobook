@@ -13,7 +13,9 @@ public class UserMapper {
             userEntity.getId(),
             userEntity.getUsername(),
             userEntity.getEmail(),
+            userEntity.getPhoneNumber(),
             userEntity.getRole(),
+            userEntity.getUserType(),
             userEntity.getCreatedAt()
         );
     }

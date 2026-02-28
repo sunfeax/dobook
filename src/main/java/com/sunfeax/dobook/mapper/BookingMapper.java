@@ -15,9 +15,11 @@ public class BookingMapper {
             bookingEntity.getUser().getEmail(),
             bookingEntity.getVenue().getName(),
             bookingEntity.getResource().getName(),
+            bookingEntity.getPriceAmount(),
             bookingEntity.getStartTime(),
             bookingEntity.getEndTime(),
-            bookingEntity.getStatus()
+            bookingEntity.getStatus(),
+            bookingEntity.getPaymentMethod()
         );
     }
 }
