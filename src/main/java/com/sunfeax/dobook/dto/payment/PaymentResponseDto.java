@@ -7,7 +7,7 @@ import com.sunfeax.dobook.enums.PaymentStatus;
 
 public record PaymentResponseDto(
     Long id,
-    Long bookingId,
+    Long appointmentId,
     BigDecimal amount,
     String currency,
     PaymentStatus status,

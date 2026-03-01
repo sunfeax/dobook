@@ -48,8 +48,7 @@ public class UserEntity {
     @Size(min = 5, max = 100)
     private String email;
 
-    @Column(name = "phone_number", nullable = false, length = 20)
-    @NotBlank(message = "Phone number cannot be empty")
+    @Column(name = "phone_number", length = 20, unique = true)
     @Size(min = 7, max = 20)
     private String phoneNumber;
 
@@ -71,6 +70,22 @@ public class UserEntity {
     @NotNull
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "user")
-    private List<BookingEntity> bookings;
+    @OneToMany(mappedBy = "owner")
+    private List<BusinessEntity> ownedBusinesses;
+
+    @OneToMany(mappedBy = "specialist")
+    private List<OfferingEntity> offerings;
+
+    @OneToMany(mappedBy = "client")
+    private List<AppointmentEntity> clientAppointments;
+
+    public void setPhoneNumber(String phoneNumber) {
+        if (phoneNumber == null) {
+            this.phoneNumber = null;
+            return;
+        }
+
+        String normalizedPhone = phoneNumber.trim();
+        this.phoneNumber = normalizedPhone.isEmpty() ? null : normalizedPhone;
+    }
 }

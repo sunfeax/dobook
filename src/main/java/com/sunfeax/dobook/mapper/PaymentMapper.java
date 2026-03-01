@@ -11,7 +11,7 @@ public class PaymentMapper {
     public PaymentResponseDto toResponseDto(PaymentEntity paymentEntity) {
         return new PaymentResponseDto(
             paymentEntity.getId(),
-            paymentEntity.getBooking().getId(),
+            paymentEntity.getAppointment().getId(),
             paymentEntity.getAmount(),
             paymentEntity.getCurrency(),
             paymentEntity.getStatus(),

@@ -1,124 +1,185 @@
--- Additional testing data for all core tables
-
 INSERT INTO users (username, email, phone_number, password, role, user_type)
 VALUES
   ('anna_petrenko', 'anna.petrenko@example.com', '+15125550101', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.7uqqQ8m', 'USER', 'CLIENT'),
   ('dmitry_sokolov', 'dmitry.sokolov@example.com', '+15035550102', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.7uqqQ8m', 'USER', 'CLIENT'),
-  ('olga_ivanova', 'olga.ivanova@example.com', '+13125550103', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.7uqqQ8m', 'USER', 'CLIENT'),
-  ('manager_roma', 'roma.manager@example.com', '+12065550104', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.7uqqQ8m', 'ADMIN', 'PROVIDER'),
-  ('guest_maria', 'maria.guest@example.com', '+14155550105', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.7uqqQ8m', 'USER', 'CLIENT');
+  ('olga_psy', 'olga.psychologist@example.com', '+13125550103', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.7uqqQ8m', 'USER', 'SPECIALIST'),
+  ('roman_coach', 'roman.coach@example.com', '+12065550104', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.7uqqQ8m', 'ADMIN', 'SPECIALIST'),
+  ('maria_client', 'maria.client@example.com', '+14155550105', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.7uqqQ8m', 'USER', 'CLIENT');
 
-INSERT INTO venues (name, address, description, admin_user_id)
+INSERT INTO businesses (owner_user_id, name, description, phone, email, website, address, is_active)
 VALUES
-  ('Skyline Coworking Hub', '12 Market St, Austin, TX', 'Coworking space with meeting rooms and open desks.', (SELECT id FROM users WHERE username = 'manager_roma' LIMIT 1)),
-  ('Riverside Studio Loft', '85 River Ave, Portland, OR', 'Loft venue for creative teams and media sessions.', (SELECT id FROM users WHERE username = 'manager_roma' LIMIT 1)),
-  ('Central Meeting Point', '200 Main Blvd, Chicago, IL', 'Business venue for team meetings and workshops.', (SELECT id FROM users WHERE username = 'manager_roma' LIMIT 1)),
-  ('Green Garden Hall', '7 Oak Lane, Seattle, WA', 'Quiet venue with indoor and terrace work zones.', (SELECT id FROM users WHERE username = 'manager_roma' LIMIT 1));
+  (
+    (SELECT id FROM users WHERE username = 'olga_psy' LIMIT 1),
+    'Olga Psychology Studio',
+    'Private practice focused on counseling and therapy.',
+    '+13125550999',
+    'hello@olgapsychology.example',
+    'https://olgapsychology.example',
+    '14 Lake Street, Chicago, IL',
+    TRUE
+  ),
+  (
+    (SELECT id FROM users WHERE username = 'roman_coach' LIMIT 1),
+    'Roman Coaching Hub',
+    'Career and leadership coaching for professionals.',
+    '+12065550999',
+    'contact@romancoaching.example',
+    'https://romancoaching.example',
+    '205 Pine Ave, Seattle, WA',
+    TRUE
+  );
 
-INSERT INTO resources (name, type, capacity, description, is_active, venue_id)
+INSERT INTO services (business_id, name, description, duration_minutes, price_amount, is_active)
 VALUES
-  ('Skyline Desk 1', 'WORKSPACE', 1, 'Single desk in open coworking area.', TRUE, (SELECT id FROM venues WHERE name = 'Skyline Coworking Hub' ORDER BY id LIMIT 1)),
-  ('Skyline Meeting Room', 'ROOM', 8, 'Enclosed meeting room with video conference setup.', TRUE, (SELECT id FROM venues WHERE name = 'Skyline Coworking Hub' ORDER BY id LIMIT 1)),
-  ('Skyline Table North', 'TABLE', 6, 'Shared table near north wall power outlets.', TRUE, (SELECT id FROM venues WHERE name = 'Skyline Coworking Hub' ORDER BY id LIMIT 1)),
+  ((SELECT id FROM businesses WHERE name = 'Olga Psychology Studio' LIMIT 1), 'Psychology Consultation', 'Initial consultation with a licensed psychologist.', 60, 95.00, TRUE),
+  ((SELECT id FROM businesses WHERE name = 'Olga Psychology Studio' LIMIT 1), 'Follow-up Therapy Session', 'Follow-up therapeutic session.', 50, 80.00, TRUE),
+  ((SELECT id FROM businesses WHERE name = 'Roman Coaching Hub' LIMIT 1), 'Career Strategy Session', 'Career path planning and growth strategy.', 45, 70.00, TRUE),
+  ((SELECT id FROM businesses WHERE name = 'Roman Coaching Hub' LIMIT 1), 'Interview Preparation', 'Mock interview with feedback.', 40, 60.00, TRUE),
+  ((SELECT id FROM businesses WHERE name = 'Roman Coaching Hub' LIMIT 1), 'Leadership Coaching', 'One-on-one leadership development session.', 75, 120.00, TRUE);
 
-  ('Riverside Workspace 2', 'WORKSPACE', 1, 'Open-space desk with ergonomic chair.', TRUE, (SELECT id FROM venues WHERE name = 'Riverside Studio Loft' ORDER BY id LIMIT 1)),
-  ('Riverside Room Blue', 'ROOM', 12, 'Large room for presentations and planning.', TRUE, (SELECT id FROM venues WHERE name = 'Riverside Studio Loft' ORDER BY id LIMIT 1)),
-  ('Riverside Podcast Studio', 'STUDIO', 4, 'Audio-ready studio for recording sessions.', TRUE, (SELECT id FROM venues WHERE name = 'Riverside Studio Loft' ORDER BY id LIMIT 1)),
+INSERT INTO offerings (business_id, specialist_id, service_id, price_amount, duration_minutes, is_active)
+VALUES
+  (
+    (SELECT id FROM businesses WHERE name = 'Olga Psychology Studio' LIMIT 1),
+    (SELECT id FROM users WHERE username = 'olga_psy' LIMIT 1),
+    (SELECT id FROM services WHERE name = 'Psychology Consultation' LIMIT 1),
+    95.00,
+    60,
+    TRUE
+  ),
+  (
+    (SELECT id FROM businesses WHERE name = 'Olga Psychology Studio' LIMIT 1),
+    (SELECT id FROM users WHERE username = 'olga_psy' LIMIT 1),
+    (SELECT id FROM services WHERE name = 'Follow-up Therapy Session' LIMIT 1),
+    80.00,
+    50,
+    TRUE
+  ),
+  (
+    (SELECT id FROM businesses WHERE name = 'Roman Coaching Hub' LIMIT 1),
+    (SELECT id FROM users WHERE username = 'roman_coach' LIMIT 1),
+    (SELECT id FROM services WHERE name = 'Career Strategy Session' LIMIT 1),
+    70.00,
+    45,
+    TRUE
+  ),
+  (
+    (SELECT id FROM businesses WHERE name = 'Roman Coaching Hub' LIMIT 1),
+    (SELECT id FROM users WHERE username = 'roman_coach' LIMIT 1),
+    (SELECT id FROM services WHERE name = 'Interview Preparation' LIMIT 1),
+    60.00,
+    40,
+    TRUE
+  ),
+  (
+    (SELECT id FROM businesses WHERE name = 'Roman Coaching Hub' LIMIT 1),
+    (SELECT id FROM users WHERE username = 'roman_coach' LIMIT 1),
+    (SELECT id FROM services WHERE name = 'Leadership Coaching' LIMIT 1),
+    120.00,
+    75,
+    TRUE
+  );
 
-  ('Central Table 1', 'TABLE', 4, 'Classic four-seat table for meetings.', TRUE, (SELECT id FROM venues WHERE name = 'Central Meeting Point' ORDER BY id LIMIT 1)),
-  ('Central Team Room', 'ROOM', 10, 'Team room with projector and board.', TRUE, (SELECT id FROM venues WHERE name = 'Central Meeting Point' ORDER BY id LIMIT 1)),
-  ('Central Open Space', 'WORKSPACE', 20, 'Open area for group coworking.', TRUE, (SELECT id FROM venues WHERE name = 'Central Meeting Point' ORDER BY id LIMIT 1)),
-
-  ('Garden Cabin A', 'ROOM', 6, 'Quiet enclosed cabin with garden view.', TRUE, (SELECT id FROM venues WHERE name = 'Green Garden Hall' ORDER BY id LIMIT 1)),
-  ('Garden Terrace Table', 'TABLE', 5, 'Outdoor table on a covered terrace.', TRUE, (SELECT id FROM venues WHERE name = 'Green Garden Hall' ORDER BY id LIMIT 1)),
-  ('Garden Creative Studio', 'STUDIO', 8, 'Studio room for collaborative creative work.', TRUE, (SELECT id FROM venues WHERE name = 'Green Garden Hall' ORDER BY id LIMIT 1));
-
-INSERT INTO bookings (user_id, resource_id, venue_id, start_date, end_date, status, payment_method)
+INSERT INTO appointments (client_id, offering_id, start_time, end_time, status, payment_method, price_amount)
 VALUES
   (
     (SELECT id FROM users WHERE username = 'dmitry_sokolov' LIMIT 1),
-    (SELECT id FROM resources WHERE name = 'Skyline Meeting Room' LIMIT 1),
-    (SELECT venue_id FROM resources WHERE name = 'Skyline Meeting Room' LIMIT 1),
+    (
+      SELECT ss.id
+      FROM offerings ss
+      JOIN users u ON u.id = ss.specialist_id
+      JOIN services s ON s.id = ss.service_id
+      WHERE u.username = 'olga_psy'
+        AND s.name = 'Psychology Consultation'
+      LIMIT 1
+    ),
     TIMESTAMPTZ '2026-03-02 09:00:00+03',
-    TIMESTAMPTZ '2026-03-02 11:00:00+03',
+    TIMESTAMPTZ '2026-03-02 10:00:00+03',
     'PENDING',
-    'ONLINE'
-  ),
-  (
-    (SELECT id FROM users WHERE username = 'olga_ivanova' LIMIT 1),
-    (SELECT id FROM resources WHERE name = 'Riverside Podcast Studio' LIMIT 1),
-    (SELECT venue_id FROM resources WHERE name = 'Riverside Podcast Studio' LIMIT 1),
-    TIMESTAMPTZ '2026-02-20 14:00:00+03',
-    TIMESTAMPTZ '2026-02-20 16:00:00+03',
-    'COMPLETED',
-    'ON_SITE'
-  ),
-  (
-    (SELECT id FROM users WHERE username = 'manager_roma' LIMIT 1),
-    (SELECT id FROM resources WHERE name = 'Central Team Room' LIMIT 1),
-    (SELECT venue_id FROM resources WHERE name = 'Central Team Room' LIMIT 1),
-    TIMESTAMPTZ '2026-03-04 15:00:00+03',
-    TIMESTAMPTZ '2026-03-04 17:00:00+03',
-    'CANCELLED',
-    'ONLINE'
-  ),
-  (
-    (SELECT id FROM users WHERE username = 'guest_maria' LIMIT 1),
-    (SELECT id FROM resources WHERE name = 'Garden Terrace Table' LIMIT 1),
-    (SELECT venue_id FROM resources WHERE name = 'Garden Terrace Table' LIMIT 1),
-    TIMESTAMPTZ '2026-03-05 12:30:00+03',
-    TIMESTAMPTZ '2026-03-05 14:00:00+03',
-    'CONFIRMED',
-    'ON_SITE'
+    'ONLINE',
+    95.00
   ),
   (
     (SELECT id FROM users WHERE username = 'anna_petrenko' LIMIT 1),
-    (SELECT id FROM resources WHERE name = 'Central Open Space' LIMIT 1),
-    (SELECT venue_id FROM resources WHERE name = 'Central Open Space' LIMIT 1),
-    TIMESTAMPTZ '2026-03-07 09:30:00+03',
-    TIMESTAMPTZ '2026-03-07 12:30:00+03',
+    (
+      SELECT ss.id
+      FROM offerings ss
+      JOIN users u ON u.id = ss.specialist_id
+      JOIN services s ON s.id = ss.service_id
+      WHERE u.username = 'roman_coach'
+        AND s.name = 'Career Strategy Session'
+      LIMIT 1
+    ),
+    TIMESTAMPTZ '2026-03-03 14:00:00+03',
+    TIMESTAMPTZ '2026-03-03 14:45:00+03',
     'CONFIRMED',
-    'ONLINE'
+    'ON_SITE',
+    70.00
+  ),
+  (
+    (SELECT id FROM users WHERE username = 'maria_client' LIMIT 1),
+    (
+      SELECT ss.id
+      FROM offerings ss
+      JOIN users u ON u.id = ss.specialist_id
+      JOIN services s ON s.id = ss.service_id
+      WHERE u.username = 'roman_coach'
+        AND s.name = 'Interview Preparation'
+      LIMIT 1
+    ),
+    TIMESTAMPTZ '2026-03-04 12:00:00+03',
+    TIMESTAMPTZ '2026-03-04 12:40:00+03',
+    'COMPLETED',
+    'ONLINE',
+    60.00
   ),
   (
     (SELECT id FROM users WHERE username = 'dmitry_sokolov' LIMIT 1),
-    (SELECT id FROM resources WHERE name = 'Garden Creative Studio' LIMIT 1),
-    (SELECT venue_id FROM resources WHERE name = 'Garden Creative Studio' LIMIT 1),
-    TIMESTAMPTZ '2026-03-08 13:00:00+03',
-    TIMESTAMPTZ '2026-03-08 15:30:00+03',
-    'PENDING',
-    'ONLINE'
+    (
+      SELECT ss.id
+      FROM offerings ss
+      JOIN users u ON u.id = ss.specialist_id
+      JOIN services s ON s.id = ss.service_id
+      WHERE u.username = 'olga_psy'
+        AND s.name = 'Follow-up Therapy Session'
+      LIMIT 1
+    ),
+    TIMESTAMPTZ '2026-03-06 18:00:00+03',
+    TIMESTAMPTZ '2026-03-06 18:50:00+03',
+    'CANCELLED',
+    'ONLINE',
+    80.00
   );
 
-INSERT INTO payments (booking_id, amount, currency, status)
+INSERT INTO payments (appointment_id, amount, currency, status)
 VALUES
   (
     (
-      SELECT b.id
-      FROM bookings b
-      JOIN users u ON u.id = b.user_id
-      JOIN resources r ON r.id = b.resource_id
-      WHERE u.username = 'dmitry_sokolov'
-        AND r.name = 'Skyline Meeting Room'
-        AND b.start_date = TIMESTAMPTZ '2026-03-02 09:00:00+03'
+      SELECT a.id
+      FROM appointments a
+      JOIN users c ON c.id = a.client_id
+      JOIN offerings ss ON ss.id = a.offering_id
+      JOIN services s ON s.id = ss.service_id
+      WHERE c.username = 'dmitry_sokolov'
+        AND s.name = 'Psychology Consultation'
       LIMIT 1
     ),
-    120.00,
+    95.00,
     'EUR',
     'PENDING'
   ),
   (
     (
-      SELECT b.id
-      FROM bookings b
-      JOIN users u ON u.id = b.user_id
-      JOIN resources r ON r.id = b.resource_id
-      WHERE u.username = 'anna_petrenko'
-        AND r.name = 'Central Open Space'
-        AND b.start_date = TIMESTAMPTZ '2026-03-07 09:30:00+03'
+      SELECT a.id
+      FROM appointments a
+      JOIN users c ON c.id = a.client_id
+      JOIN offerings ss ON ss.id = a.offering_id
+      JOIN services s ON s.id = ss.service_id
+      WHERE c.username = 'maria_client'
+        AND s.name = 'Interview Preparation'
       LIMIT 1
     ),
-    180.00,
+    60.00,
     'EUR',
     'PAID'
   );

@@ -8,25 +8,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sunfeax.dobook.dto.resource.ResourceResponseDto;
-import com.sunfeax.dobook.service.ResourceService;
+import com.sunfeax.dobook.dto.service.ServiceResponseDto;
+import com.sunfeax.dobook.service.ServiceService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/resources")
+@RequestMapping("/api/services")
 @RequiredArgsConstructor
-public class ResourceController {
+public class ServiceController {
 
-    private final ResourceService resourceService;
+    private final ServiceService serviceService;
 
     @GetMapping
-    public List<ResourceResponseDto> getUsers() {
-        return resourceService.getAll();
+    public List<ServiceResponseDto> getServices() {
+        return serviceService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResourceResponseDto> getResourceById(@PathVariable Long id) {
-        return ResponseEntity.of(resourceService.getById(id));
+    public ResponseEntity<ServiceResponseDto> getServiceById(@PathVariable Long id) {
+        return ResponseEntity.of(serviceService.getById(id));
     }
 }

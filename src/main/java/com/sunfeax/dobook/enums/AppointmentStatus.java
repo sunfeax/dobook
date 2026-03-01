@@ -1,6 +1,6 @@
 package com.sunfeax.dobook.enums;
 
-public enum BookingStatus {
+public enum AppointmentStatus {
     PENDING,
     CONFIRMED,
     CANCELLED,

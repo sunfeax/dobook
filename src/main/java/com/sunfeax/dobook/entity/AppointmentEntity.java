@@ -3,7 +3,9 @@ package com.sunfeax.dobook.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.sunfeax.dobook.enums.BookingStatus;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.sunfeax.dobook.enums.AppointmentStatus;
 import com.sunfeax.dobook.enums.PaymentMethod;
 
 import jakarta.persistence.Column;
@@ -19,18 +21,19 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "bookings")
+@Table(name = "appointments")
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookingEntity {
+public class AppointmentEntity {
 
     @Column(name = "id")
     @Id
@@ -38,38 +41,40 @@ public class BookingEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    @JoinColumn(name = "client_id", nullable = false)
+    private UserEntity client;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "venue_id", nullable = false)
-    private VenueEntity venue;
+    @JoinColumn(name = "offering_id", nullable = false)
+    private OfferingEntity offering;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "resource_id", nullable = false)
-    private ResourceEntity resource;
-
-    @Column(name = "price_amount", nullable = false, precision = 12, scale = 2)
-    @NotNull
-    @DecimalMin("0.00")
-    private BigDecimal priceAmount = BigDecimal.ZERO;
-
-    @Column(name = "start_date", nullable = false)
+    @Column(name = "start_time", nullable = false)
     @NotNull
     private LocalDateTime startTime;
 
-    @Column(name = "end_date", nullable = false)
+    @Column(name = "end_time", nullable = false)
     @NotNull
     private LocalDateTime endTime;
 
     @Column(name = "status", nullable = false)
+    @NotNull
     @Enumerated(EnumType.STRING)
-    private BookingStatus status = BookingStatus.PENDING;
+    private AppointmentStatus status = AppointmentStatus.PENDING;
 
     @Column(name = "payment_method", nullable = false)
     @NotNull
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod = PaymentMethod.ONLINE;
+
+    @Column(name = "price_amount", nullable = false, precision = 12, scale = 2)
+    @NotNull
+    @DecimalMin("0.00")
+    private BigDecimal priceAmount;
+
+    @Column(name = "currency", nullable = false, length = 3)
+    @NotNull
+    @Size(min = 3, max = 3)
+    private String currency;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @NotNull
@@ -77,5 +82,6 @@ public class BookingEntity {
 
     @Column(name = "updated_at", nullable = false)
     @NotNull
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 }
