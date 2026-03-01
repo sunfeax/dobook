@@ -7,7 +7,8 @@ import com.sunfeax.dobook.enums.UserType;
 
 public record UserResponseDto(
     Long id,
-    String username,
+    String firstName,
+    String lastName,
     String email,
     String phoneNumber,
     UserRole role,

@@ -14,7 +14,7 @@ public class OfferingMapper {
             offeringEntity.getBusiness().getId(),
             offeringEntity.getBusiness().getName(),
             offeringEntity.getSpecialist().getId(),
-            offeringEntity.getSpecialist().getUsername(),
+            offeringEntity.getSpecialist().getFirstName() + " " + offeringEntity.getSpecialist().getLastName(),
             offeringEntity.getService().getId(),
             offeringEntity.getService().getName(),
             offeringEntity.getPriceAmount(),

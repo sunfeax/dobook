@@ -12,11 +12,12 @@ public class AppointmentMapper {
         return new AppointmentResponseDto(
             appointmentEntity.getId(),
             appointmentEntity.getClient().getId(),
-            appointmentEntity.getClient().getUsername(),
+            appointmentEntity.getClient().getFirstName() + " " + appointmentEntity.getClient().getLastName(),
             appointmentEntity.getClient().getEmail(),
             appointmentEntity.getOffering().getId(),
             appointmentEntity.getOffering().getSpecialist().getId(),
-            appointmentEntity.getOffering().getSpecialist().getUsername(),
+            appointmentEntity.getOffering().getSpecialist().getFirstName() + " "
+                + appointmentEntity.getOffering().getSpecialist().getLastName(),
             appointmentEntity.getOffering().getService().getId(),
             appointmentEntity.getOffering().getService().getName(),
             appointmentEntity.getOffering().getBusiness().getName(),

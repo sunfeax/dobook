@@ -37,10 +37,15 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username")
-    @NotBlank(message = "Username cannot be empty")
-    @Size(min = 3, max = 50)
-    private String username;
+    @Column(name = "first_name", nullable = false)
+    @NotBlank(message = "First name cannot be empty")
+    @Size(min = 2, max = 50)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    @NotBlank(message = "Last name cannot be empty")
+    @Size(min = 2, max = 50)
+    private String lastName;
 
     @Column(name = "email", nullable = false, unique = true)
     @NotBlank(message = "Email cannot be empty")

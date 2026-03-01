@@ -19,7 +19,7 @@ public class BusinessMapper {
             businessEntity.getAddress(),
             businessEntity.isActive(),
             businessEntity.getOwner().getId(),
-            businessEntity.getOwner().getUsername(),
+            businessEntity.getOwner().getFirstName() + " " + businessEntity.getOwner().getLastName(),
             businessEntity.getCreatedAt(),
             businessEntity.getUpdatedAt()
         );
